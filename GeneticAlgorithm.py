@@ -90,7 +90,7 @@ class GeneticAlgorithm:
         for i in range(self.populationAmount):
             parent1 = choice(self.matingPool)
             parent2 = choice(self.matingPool)
-            child = parent1.crossover(parent2, self.crossoverMethod,self.crossoverRate)
+            child = parent1.crossover(parent2, self.crossoverMethod, self.crossoverRate)
             child.mutate(self.mutationMethod, self.mutationRate)
             self.populationArray.append(child)
 
@@ -117,9 +117,9 @@ class GeneticAlgorithm:
         for path in self.populationArray:
 
             #reverse minmax -> lower fitness = better
-            procent = 100 - round((path.fitness - self.bestPath.fitness) / (self.wortPath.fitness - self.bestPath.fitness) * 100)
+            percentage = 100 - round((path.fitness - self.bestPath.fitness) / (self.wortPath.fitness - self.bestPath.fitness) * 100)
 
-            for i in range(procent):
+            for i in range(percentage):
                 self.matingPool.append(path)
 
 
