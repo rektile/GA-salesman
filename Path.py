@@ -7,6 +7,10 @@ class MutationMethod(Enum):
     INVERSION = 0
 
 
+class CrossoverMethod(Enum):
+    ORDERED_CROSSOVER = 0
+
+
 class Path:
     def __init__(self):
         self.fitness = 0
@@ -56,3 +60,34 @@ class Path:
                 end = self.nodePath[a:]
 
             self.nodePath = start + middle + end
+
+    def crossover(self, partner, method=CrossoverMethod.ORDERED_CROSSOVER):
+
+        if method == CrossoverMethod.ORDERED_CROSSOVER:
+            return self.orderedCrossover(partner)
+
+    def orderedCrossover(self, partner):
+        child = []
+
+        sectionStart = randint(0, len(self.nodePath) - 1)
+        sectionEnd = randint(0, len(self.nodePath) - 1)
+        sectionIndex = range(sectionStart,sectionEnd)
+        section = self.nodePath[sectionStart:sectionEnd]
+
+        childIndex = 0
+        partnerIndex = 0
+        while childIndex < len(self.nodePath):
+            if childIndex in sectionIndex:
+                for num in section
+                    child.append(num)
+                    childIndex += 1
+            else:
+                curNum = partner[partnerIndex]
+
+                if curNum not in section:
+                    child.append(curNum)
+                    childIndex += 1
+
+                partner += 1
+
+        return child
