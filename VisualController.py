@@ -28,7 +28,13 @@ class VisualController:
         self.screen.blit(currentScore, (20, 20))
         self.screen.blit(evolutionNumber, (300, 20))
 
-    def drawLinesBetweenNodes(self,nodes):
+    def drawNodes(self,nodes):
+        for node in nodes:
+            pygame.draw.circle(self.screen, self.black, node, self.circleRad)
 
+    def updateScreen(self):
+        pygame.display.flip()
+
+    def drawLinesBetweenNodes(self,nodes):
         for i in range(len(nodes) - 1):
             pygame.draw.line(self.screen, self.black, (nodes[i][0], nodes[i][1]), (nodes[i + 1][0], nodes[i + 1][1]), self.lineWidth)
