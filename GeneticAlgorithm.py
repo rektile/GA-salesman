@@ -13,7 +13,7 @@ class GeneticAlgorithm:
     def __init__(self):
         self.nodeArray = None
 
-        self.populationAmount = 100
+        self.populationAmount = 1000
         self.populationArray = None
 
         self.evolutionNumber = 0
@@ -72,8 +72,8 @@ class GeneticAlgorithm:
         self.populationArray = []
 
         for i in range(self.populationAmount):
-            parent1 = random.choice(self.matingPool)
-            parent2 = random.choice(self.matingPool)
+            parent1 = choice(self.matingPool)
+            parent2 = choice(self.matingPool)
             child = parent1.crossover(parent2)
             child.mutate()
             self.populationArray.append(child)
