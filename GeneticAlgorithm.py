@@ -1,4 +1,10 @@
 from Path import Path
+from enum import Enum
+from random import choice
+
+class SelectionMethod(Enum):
+    ROULETTE = 0
+
 
 class GeneticAlgorithm:
     def __init__(self):
@@ -15,6 +21,8 @@ class GeneticAlgorithm:
         self.bestEv = 0
 
         self.newBestPath = False
+
+        self.matingPool = []
 
     def initNodeArray(self,nodes):
         self.nodeArray = nodes
@@ -36,7 +44,31 @@ class GeneticAlgorithm:
             self.wortPath = path
 
 
+    def evolve(self,methode=SelectionMethod.ROULETTE):
 
+        self.matingPool = []
+
+        if methode == SelectionMethod.ROULETTE:
+            self.evolveRoulette()
+
+        self.mate()
+
+    def mate(self):
+        self.populationArray = []
+
+        #TODO make crossover
+
+
+
+    def evolveRoulette(self):
+
+        for path in self.populationArray:
+
+            #reverse minmax -> lower fitness = better
+            procent = 100 - round((path.fitness - self.bestPath.fitness) / (self.wortPath.fitness - self.bestPath.fitness) * 100)
+
+            for i in range(procent):
+                self.matingPool.append(path)
 
 
     def calcFitness(self):
