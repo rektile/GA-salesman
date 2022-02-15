@@ -9,8 +9,8 @@ class GeneticAlgorithm:
         self.mutationMethod = MutationMethod.INVERSION
         self.crossoverMethod = CrossoverMethod.CYCLE_CROSSOVER
 
-        self.mutationRate = 0
-        self.crossoverRate = 0
+        self.mutationRate = 15
+        self.crossoverRate = 85
 
         self.populationAmount = 100
         self.selectionSize = round(self.populationAmount / 10)
