@@ -42,20 +42,38 @@ class Program:
             if event.type == pygame.QUIT:
                 exit()
             elif event.type == pygame.MOUSEBUTTONDOWN and self.currentStage == GameState.INIT:
-                node = self.VC.getMousePos()
-                self.nodes.append(node)
+                self.addNode()
 
             elif event.type == pygame.KEYDOWN:
                 #run GA
                 if event.key == pygame.K_RETURN and self.currentStage == GameState.INIT:
-                    if len(self.nodes) >= 3:
-                        self.currentStage = GameState.RUNNING
-                        self.GA.initNodeArray(self.nodes)
-                    else:
-                        print("You need more than 3 points")
+                    self.startGA()
 
                 elif event.key == pygame.K_BACKSPACE and self.nodes and self.currentStage == GameState.INIT:
-                    self.nodes.pop()
+                    self.removeLastNode()
+
+                elif event.key == pygame.K_r:
+                    self.reset()
+
+    def removeLastNode(self):
+        self.nodes.pop()
+
+    def addNode(self):
+        node = self.VC.getMousePos()
+        self.nodes.append(node)
+
+    def startGA(self):
+        if len(self.nodes) >= 3:
+            self.currentStage = GameState.RUNNING
+            self.GA.initNodeArray(self.nodes)
+        else:
+            print("You need more than 3 points")
+
+    def reset(self):
+        self.GA.reset()
+        self.currentStage = GameState.INIT
+        self.nodes = []
+
 
 program = Program()
 

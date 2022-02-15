@@ -11,7 +11,7 @@ class SelectionMethod(Enum):
 
 class GeneticAlgorithm:
     def __init__(self):
-        self.nodeArray = None
+
 
         self.populationAmount = 1000
         self.populationArray = None
@@ -28,6 +28,23 @@ class GeneticAlgorithm:
         self.matingPool = []
 
         self.selectionSize = round(self.populationAmount / 10)
+
+    def reset(self):
+        self.nodeArray = None
+
+        self.populationArray = None
+
+        self.evolutionNumber = 0
+        self.averageFitness = 0
+
+        self.wortPath = None
+        self.bestPath = None
+        self.bestEv = 0
+
+        self.newBestPath = False
+
+        self.matingPool = []
+
 
     def initNodeArray(self,nodes):
         self.nodeArray = nodes
