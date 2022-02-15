@@ -10,6 +10,7 @@ class MutationMethod(Enum):
 
 class CrossoverMethod(Enum):
     ORDERED_CROSSOVER = 0
+    CYCLE_CROSSOVER = 1
 
 
 class Path:
@@ -17,7 +18,7 @@ class Path:
         self.fitness = 0
         self.nodePath = None
 
-        self.mutationRate = 50
+        self.mutationRate = 15
         self.crossoverRate = 70
 
     def setPath(self, path):
@@ -35,7 +36,7 @@ class Path:
             distance = dist(currentNode, nextNode)
             self.fitness += distance
 
-    def mutate(self, method=MutationMethod.SWAP_POSITIONS):
+    def mutate(self, method=MutationMethod.INVERSION):
 
         if method == MutationMethod.INVERSION:
             self.mutateInversion()
@@ -75,10 +76,36 @@ class Path:
 
             self.nodePath = start + middle + end
 
-    def crossover(self, partner, method=CrossoverMethod.ORDERED_CROSSOVER):
+    def crossover(self, partner, method=CrossoverMethod.CYCLE_CROSSOVER):
 
         if method == CrossoverMethod.ORDERED_CROSSOVER:
             return self.orderedCrossover(partner)
+        elif method == CrossoverMethod.CYCLE_CROSSOVER:
+            return self.cycleCrossover(partner)
+
+    def cycleCrossover(self,partner):
+        y1 = [-1] * len(self.nodePath)
+        y2 = [-1] * len(partner.nodePath)
+
+        y1[0] = self.nodePath[0]
+        y2[0] = partner.nodePath[0]
+        i = 0
+
+        while partner.nodePath[i] not in y1:
+            j = self.nodePath.index(partner.nodePath[i])
+            y1[j] = self.nodePath[j]
+            y2[j] = partner.nodePath[j]
+            i = j
+
+        for i in range(len(self.nodePath)):
+            if y1[i] == -1:
+                y1[i] = self.nodePath[i]
+                y2[i] = partner.nodePath[i]
+
+        newPath = Path()
+        newPath.setPath(y1)
+
+        return newPath
 
     def orderedCrossover(self, partner):
         child = []

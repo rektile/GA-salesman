@@ -13,7 +13,7 @@ class GeneticAlgorithm:
     def __init__(self):
 
 
-        self.populationAmount = 1000
+        self.populationAmount = 100
         self.populationArray = None
 
         self.evolutionNumber = 0

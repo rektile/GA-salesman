@@ -14,6 +14,7 @@ New ones could be added in the future.
 - Swap positions
 ### 2.3 Crossover
 - Ordered Crossover (OX)
+- Cycle Crossover (CX)
 
 ## 3. Installation
 Run this command at the root of the project folder.
