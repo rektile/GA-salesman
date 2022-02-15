@@ -17,8 +17,8 @@ class Path:
         self.fitness = 0
         self.nodePath = None
 
-        self.mutationRate = 20
-        self.crossoverRate = 80
+        self.mutationRate = 50
+        self.crossoverRate = 70
 
     def setPath(self, path):
         self.nodePath = path
@@ -39,7 +39,7 @@ class Path:
 
         if method == MutationMethod.INVERSION:
             self.mutateInversion()
-        elif method == MutationMethod.SWITCH_POSITIONS:
+        elif method == MutationMethod.SWAP_POSITIONS:
             self.mutateSwap()
 
     def mutateSwap(self):
