@@ -5,7 +5,7 @@ I made a **visual** solver for the Traveling Salesman Problem using a **Genetic 
 
 ## 2. Algorithms used
 These are the algorithms you can switch between within the code.  
-New ones can be added in the future.
+New could can be added in the future.
 ### 2.1 Selection
 - Roulette
 - Tournament
