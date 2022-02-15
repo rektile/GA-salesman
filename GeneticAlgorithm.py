@@ -6,6 +6,7 @@ from random import choice
 
 class SelectionMethod(Enum):
     ROULETTE = 0
+    TOURNAMENT = 1
 
 
 class GeneticAlgorithm:
@@ -25,6 +26,8 @@ class GeneticAlgorithm:
         self.newBestPath = False
 
         self.matingPool = []
+
+        self.selectionSize = round(self.populationAmount / 10)
 
     def initNodeArray(self,nodes):
         self.nodeArray = nodes
@@ -53,12 +56,15 @@ class GeneticAlgorithm:
             self.wortPath = path
 
 
-    def evolve(self,method=SelectionMethod.ROULETTE):
+    def evolve(self,method=SelectionMethod.TOURNAMENT):
 
         self.matingPool = []
 
         if method == SelectionMethod.ROULETTE:
             self.evolveRoulette()
+
+        elif method == SelectionMethod.TOURNAMENT:
+            self.evolveTournament()
 
         self.mate()
 
@@ -73,6 +79,21 @@ class GeneticAlgorithm:
             self.populationArray.append(child)
 
         self.evolutionNumber += 1
+
+    def evolveTournament(self):
+        for i in range(self.populationAmount):
+            selection = []
+            for i in range(self.selectionSize):
+
+                while True:
+                    randomChoice = choice(self.populationArray)
+                    if randomChoice not in selection:
+                        selection.append(randomChoice)
+                        break
+
+            selection = sorted(selection, key=lambda path: path.fitness)
+            self.matingPool.append(selection[0])
+
 
 
     def evolveRoulette(self):
