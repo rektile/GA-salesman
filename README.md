@@ -23,5 +23,6 @@ pip install -r requirements.txt
 ## 4. How to use
 - Press left mouse button to place nodes on the screen/map.  
 - Press backspace button to remove the last placed node.
-- Press enter to run the GA
+- Press enter to run the GA.
+- Press R to restart.
 
