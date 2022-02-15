@@ -1,8 +1,11 @@
+from Path import Path
+
 class GeneticAlgorithm:
     def __init__(self):
         self.nodeArray = None
 
-        self.population = 100
+        self.populationAmount = 100
+        self.populationArray = None
 
         self.evolutionNumber = 0
         self.averageFitness = 0
@@ -14,3 +17,12 @@ class GeneticAlgorithm:
 
         self.newBestPath = False
 
+    def initNodeArray(self,nodes):
+        self.nodeArray = nodes
+        paths = []
+        for i in range(self.populationAmount):
+            newPath = Path()
+            newPath.makePathRandomFromNodes(nodes)
+            paths.append(newPath)
+
+        self.populationArray = paths
