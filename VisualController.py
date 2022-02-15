@@ -28,6 +28,12 @@ class VisualController:
         self.screen.blit(currentScore, (20, 20))
         self.screen.blit(evolutionNumber, (300, 20))
 
+    def getMousePos(self):
+        return pygame.mouse.get_pos()
+
+    def drawBackground(self):
+        self.screen.fill(self.white)
+
     def drawNodes(self,nodes):
         for node in nodes:
             pygame.draw.circle(self.screen, self.black, node, self.circleRad)
