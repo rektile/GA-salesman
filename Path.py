@@ -78,7 +78,7 @@ class Path:
         partnerIndex = 0
         while childIndex < len(self.nodePath):
             if childIndex in sectionIndex:
-                for num in section
+                for num in section:
                     child.append(num)
                     childIndex += 1
             else:
