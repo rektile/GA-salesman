@@ -5,6 +5,7 @@ from enum import Enum
 
 class MutationMethod(Enum):
     INVERSION = 0
+    SWAP_POSITIONS = 1
 
 
 class CrossoverMethod(Enum):
@@ -34,10 +35,23 @@ class Path:
             distance = dist(currentNode, nextNode)
             self.fitness += distance
 
-    def mutate(self, method=MutationMethod.INVERSION):
+    def mutate(self, method=MutationMethod.SWAP_POSITIONS):
 
         if method == MutationMethod.INVERSION:
             self.mutateInversion()
+        elif method == MutationMethod.SWITCH_POSITIONS:
+            self.mutateSwap()
+
+    def mutateSwap(self):
+        while True:
+            r1 = randint(0,len(self.nodePath) - 1)
+            r2 = randint(0,len(self.nodePath) - 1)
+            if r1 != r2:
+                temp = self.nodePath[r1]
+                self.nodePath[r1] = self.nodePath[r2]
+                self.nodePath[r2] = temp
+                break
+
 
     def mutateInversion(self):
         randomNum = randint(0, 100)
