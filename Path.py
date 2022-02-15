@@ -6,6 +6,7 @@ from enum import Enum
 class MutationMethod(Enum):
     INVERSION = 0
     SWAP_POSITIONS = 1
+    SCRAMBLE = 2
 
 
 class CrossoverMethod(Enum):
@@ -18,8 +19,8 @@ class Path:
         self.fitness = 0
         self.nodePath = None
 
-        self.mutationRate = 15
-        self.crossoverRate = 70
+        self.mutationRate = 10
+        self.crossoverRate = 80
 
     def setPath(self, path):
         self.nodePath = path
@@ -38,10 +39,38 @@ class Path:
 
     def mutate(self, method=MutationMethod.INVERSION):
 
+        randomNum = randint(0, 100)
+
+        if randomNum > self.mutationRate:
+            return
+
         if method == MutationMethod.INVERSION:
             self.mutateInversion()
         elif method == MutationMethod.SWAP_POSITIONS:
             self.mutateSwap()
+        elif method == MutationMethod.SCRAMBLE:
+            self.mutateScramble()
+
+    def mutateScramble(self):
+        a = 0
+        b = 0
+
+        while a == b:
+            a = randint(0, len(self.nodePath) - 1)
+            b = randint(0, len(self.nodePath) - 1)
+
+        if a < b:
+            start = self.nodePath[:a]
+            middle = self.nodePath[a:b]
+            middleS = sample(middle,len(middle))
+            end = self.nodePath[b:]
+        else:
+            start = self.nodePath[:b]
+            middle = self.nodePath[b:a]
+            middleS = sample(middle, len(middle))
+            end = self.nodePath[a:]
+
+        self.nodePath = start + middleS + end
 
     def mutateSwap(self):
         while True:
@@ -55,28 +84,30 @@ class Path:
 
 
     def mutateInversion(self):
-        randomNum = randint(0, 100)
+        a = 0
+        b = 0
 
-        if randomNum < self.mutationRate:
-            a = 0
-            b = 0
+        while a == b:
+            a = randint(0, len(self.nodePath) - 1)
+            b = randint(0, len(self.nodePath) - 1)
 
-            while a == b:
-                a = randint(0, len(self.nodePath) - 1)
-                b = randint(0, len(self.nodePath) - 1)
+        if a < b:
+            start = self.nodePath[:a]
+            middle = list(reversed(self.nodePath[a:b]))
+            end = self.nodePath[b:]
+        else:
+            start = self.nodePath[:b]
+            middle = list(reversed(self.nodePath[b:a]))
+            end = self.nodePath[a:]
 
-            if a < b:
-                start = self.nodePath[:a]
-                middle = list(reversed(self.nodePath[a:b]))
-                end = self.nodePath[b:]
-            else:
-                start = self.nodePath[:b]
-                middle = list(reversed(self.nodePath[b:a]))
-                end = self.nodePath[a:]
-
-            self.nodePath = start + middle + end
+        self.nodePath = start + middle + end
 
     def crossover(self, partner, method=CrossoverMethod.CYCLE_CROSSOVER):
+
+        randomNum = randint(0, 100)
+
+        if randomNum > self.crossoverRate:
+            return self
 
         if method == CrossoverMethod.ORDERED_CROSSOVER:
             return self.orderedCrossover(partner)

@@ -100,7 +100,7 @@ class GeneticAlgorithm:
     def evolveTournament(self):
         for i in range(self.populationAmount):
             selection = []
-            for i in range(self.selectionSize):
+            for j in range(self.selectionSize):
 
                 while True:
                     randomChoice = choice(self.populationArray)

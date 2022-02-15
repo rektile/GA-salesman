@@ -12,6 +12,7 @@ New ones could be added in the future.
 ### 2.2 Mutation
 - Inversion
 - Swap positions
+- Scramble
 ### 2.3 Crossover
 - Ordered Crossover (OX)
 - Cycle Crossover (CX)
