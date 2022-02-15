@@ -1,26 +1,11 @@
 from random import sample, randint
 from math import dist
-from enum import Enum
-
-
-class MutationMethod(Enum):
-    INVERSION = 0
-    SWAP_POSITIONS = 1
-    SCRAMBLE = 2
-
-
-class CrossoverMethod(Enum):
-    ORDERED_CROSSOVER = 0
-    CYCLE_CROSSOVER = 1
-
+from GAalgorithms import MutationMethod, CrossoverMethod
 
 class Path:
     def __init__(self):
         self.fitness = 0
         self.nodePath = None
-
-        self.mutationRate = 10
-        self.crossoverRate = 80
 
     def setPath(self, path):
         self.nodePath = path
@@ -37,11 +22,11 @@ class Path:
             distance = dist(currentNode, nextNode)
             self.fitness += distance
 
-    def mutate(self, method=MutationMethod.INVERSION):
+    def mutate(self, method, mutationRate=10):
 
         randomNum = randint(0, 100)
 
-        if randomNum > self.mutationRate:
+        if randomNum > mutationRate:
             return
 
         if method == MutationMethod.INVERSION:
@@ -102,11 +87,11 @@ class Path:
 
         self.nodePath = start + middle + end
 
-    def crossover(self, partner, method=CrossoverMethod.CYCLE_CROSSOVER):
+    def crossover(self, partner, method, crossoverRate=80):
 
         randomNum = randint(0, 100)
 
-        if randomNum > self.crossoverRate:
+        if randomNum > crossoverRate:
             return self
 
         if method == CrossoverMethod.ORDERED_CROSSOVER:

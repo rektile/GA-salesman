@@ -1,19 +1,21 @@
-import random
-
 from Path import Path
-from enum import Enum
 from random import choice
-
-class SelectionMethod(Enum):
-    ROULETTE = 0
-    TOURNAMENT = 1
-
+from GAalgorithms import *
 
 class GeneticAlgorithm:
     def __init__(self):
+        ###Params###############################################
+        self.selectionMethod = SelectionMethod.TOURNAMENT
+        self.mutationMethod = MutationMethod.INVERSION
+        self.crossoverMethod = CrossoverMethod.CYCLE_CROSSOVER
 
+        self.mutationRate = 0
+        self.crossoverRate = 0
 
         self.populationAmount = 100
+        self.selectionSize = round(self.populationAmount / 10)
+        #######################################################
+
         self.populationArray = None
 
         self.evolutionNumber = 0
@@ -22,12 +24,9 @@ class GeneticAlgorithm:
         self.wortPath = None
         self.bestPath = None
         self.bestEv = 0
-
         self.newBestPath = False
 
         self.matingPool = []
-
-        self.selectionSize = round(self.populationAmount / 10)
 
     def reset(self):
         self.nodeArray = None
@@ -73,26 +72,26 @@ class GeneticAlgorithm:
             self.wortPath = path
 
 
-    def evolve(self,method=SelectionMethod.TOURNAMENT):
+    def evolve(self):
 
         self.matingPool = []
 
-        if method == SelectionMethod.ROULETTE:
+        if self.selectionMethod == SelectionMethod.ROULETTE:
             self.evolveRoulette()
 
-        elif method == SelectionMethod.TOURNAMENT:
+        elif self.selectionMethod == SelectionMethod.TOURNAMENT:
             self.evolveTournament()
 
-        self.mate()
+        self.breed()
 
-    def mate(self):
+    def breed(self):
         self.populationArray = []
 
         for i in range(self.populationAmount):
             parent1 = choice(self.matingPool)
             parent2 = choice(self.matingPool)
-            child = parent1.crossover(parent2)
-            child.mutate()
+            child = parent1.crossover(parent2, self.crossoverMethod,self.crossoverRate)
+            child.mutate(self.mutationMethod, self.mutationRate)
             self.populationArray.append(child)
 
         self.evolutionNumber += 1

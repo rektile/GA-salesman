@@ -1,6 +1,7 @@
 from enum import Enum
 from VisualController import VisualController
 from GeneticAlgorithm import GeneticAlgorithm
+from GAalgorithms import *
 import pygame
 
 class GameState(Enum):
