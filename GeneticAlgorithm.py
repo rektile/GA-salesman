@@ -1,3 +1,5 @@
+import random
+
 from Path import Path
 from enum import Enum
 from random import choice
@@ -56,8 +58,14 @@ class GeneticAlgorithm:
     def mate(self):
         self.populationArray = []
 
-        #TODO make crossover
+        for i in range(self.populationAmount):
+            parent1 = random.choice(self.matingPool)
+            parent2 = random.choice(self.matingPool)
+            child = parent1.crossover(parent2)
+            child.mutate()
+            self.populationArray.append(child)
 
+        self.evolutionNumber += 1
 
 
     def evolveRoulette(self):
