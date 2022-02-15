@@ -17,7 +17,6 @@ class Program:
 
     def run(self):
         self.VC.init()
-        self.nodes = []
         while True:
             self.VC.drawBackground()
 
