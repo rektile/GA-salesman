@@ -48,9 +48,11 @@ class Program:
             elif event.type == pygame.KEYDOWN:
                 #run GA
                 if event.key == pygame.K_RETURN and self.currentStage == GameState.INIT:
-                    self.currentStage = GameState.RUNNING
                     if len(self.nodes) >= 3:
+                        self.currentStage = GameState.RUNNING
                         self.GA.initNodeArray(self.nodes)
+                    else:
+                        print("You need more than 3 points")
 
                 elif event.key == pygame.K_BACKSPACE and self.nodes and self.currentStage == GameState.INIT:
                     self.nodes.pop()
