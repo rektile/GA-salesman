@@ -27,6 +27,7 @@ class Program:
                     node = self.VC.getMousePos()
                     nodes.append(node)
 
+
             self.VC.drawNodes(nodes)
             self.VC.updateScreen()
 

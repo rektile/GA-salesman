@@ -44,11 +44,11 @@ class GeneticAlgorithm:
             self.wortPath = path
 
 
-    def evolve(self,methode=SelectionMethod.ROULETTE):
+    def evolve(self,method=SelectionMethod.ROULETTE):
 
         self.matingPool = []
 
-        if methode == SelectionMethod.ROULETTE:
+        if method == SelectionMethod.ROULETTE:
             self.evolveRoulette()
 
         self.mate()

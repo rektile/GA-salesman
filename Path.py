@@ -1,5 +1,11 @@
-from random import sample
+from random import sample, randint
 from math import dist
+from enum import Enum
+
+
+class MutationMethod(Enum):
+    INVERSION = 0
+
 
 class Path:
     def __init__(self):
@@ -9,7 +15,7 @@ class Path:
         self.mutationRate = 20
         self.crossoverRate = 80
 
-    def setPath(self,path):
+    def setPath(self, path):
         self.nodePath = path
 
     def makePathRandomFromNodes(self, nodes):
@@ -24,6 +30,29 @@ class Path:
             distance = dist(currentNode, nextNode)
             self.fitness += distance
 
+    def mutate(self, method=MutationMethod.INVERSION):
 
+        if method == MutationMethod.INVERSION:
+            self.mutateInversion()
 
+    def mutateInversion(self):
+        randomNum = randint(0, 100)
 
+        if randomNum < self.mutationRate:
+            a = 0
+            b = 0
+
+            while a == b:
+                a = randint(0, len(self.nodePath) - 1)
+                b = randint(0, len(self.nodePath) - 1)
+
+            if a < b:
+                start = self.nodePath[:a]
+                middle = list(reversed(self.nodePath[a:b]))
+                end = self.nodePath[b:]
+            else:
+                start = self.nodePath[:b]
+                middle = list(reversed(self.nodePath[b:a]))
+                end = self.nodePath[a:]
+
+            self.nodePath = start + middle + end
