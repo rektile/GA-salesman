@@ -38,11 +38,18 @@ class GeneticAlgorithm:
 
     def checkForBestAndWorst(self,path):
 
-        if self.bestPath or path.fitness < self.bestPath.fitness:
+        if self.bestPath:
+            if path.fitness < self.bestPath.fitness:
+                self.bestPath = path
+                self.bestEv = self.evolutionNumber
+        else:
             self.bestPath = path
             self.bestEv = self.evolutionNumber
 
-        if self.wortPath or path.fitness > self.wortPath.fitness:
+        if self.wortPath:
+            if path.fitness > self.wortPath.fitness:
+                self.wortPath = path
+        else:
             self.wortPath = path
 
 
@@ -91,3 +98,4 @@ class GeneticAlgorithm:
             self.checkForBestAndWorst(path)
 
         self.averageFitness /= self.populationAmount
+

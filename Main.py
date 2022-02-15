@@ -26,9 +26,10 @@ class Program:
             if self.currentStage == GameState.RUNNING:
                 self.GA.calcFitness()
                 self.GA.evolve()
-                bestScore = self.GA.bestPath.fitness
+                bestPath = self.GA.bestPath
                 ev = self.GA.bestEv
-                self.VC.updateCurrentScoreAndEvolution(bestScore,ev)
+                self.VC.updateCurrentScoreAndEvolution(bestPath.fitness,ev)
+                self.VC.drawLinesBetweenNodes(bestPath.nodePath)
             else:
                 self.VC.updatePointsText(len(self.nodes))
 

@@ -28,6 +28,10 @@ class VisualController:
         self.screen.blit(currentScore, (20, 20))
         self.screen.blit(evolutionNumber, (300, 20))
 
+    def updatePointsText(self,amount):
+        points = self.font.render("Point(s): {}".format(amount), False, (0, 0, 0))
+        self.screen.blit(points, (20, 20))
+
     def getMousePos(self):
         return pygame.mouse.get_pos()
 

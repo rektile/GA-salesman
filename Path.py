@@ -82,12 +82,16 @@ class Path:
                     child.append(num)
                     childIndex += 1
             else:
-                curNum = partner[partnerIndex]
+                curNum = partner.nodePath[partnerIndex]
 
                 if curNum not in section:
                     child.append(curNum)
                     childIndex += 1
 
-                partner += 1
+                partnerIndex += 1
 
-        return child
+
+        newPath = Path()
+        newPath.setPath(child)
+
+        return newPath
