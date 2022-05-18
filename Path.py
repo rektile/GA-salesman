@@ -21,6 +21,7 @@ class Path:
 
             distance = dist(currentNode, nextNode)
             self.fitness += distance
+        
 
     def mutate(self, method, mutationRate=10):
 
@@ -30,13 +31,13 @@ class Path:
             return
 
         if method == MutationMethod.INVERSION:
-            self.mutateInversion()
+            self.__mutateInversion()
         elif method == MutationMethod.SWAP_POSITIONS:
-            self.mutateSwap()
+            self.__mutateSwap()
         elif method == MutationMethod.SCRAMBLE:
-            self.mutateScramble()
+            self.__mutateScramble()
 
-    def mutateScramble(self):
+    def __mutateScramble(self):
         a = 0
         b = 0
 
@@ -57,7 +58,7 @@ class Path:
 
         self.nodePath = start + middleS + end
 
-    def mutateSwap(self):
+    def __mutateSwap(self):
         while True:
             r1 = randint(0,len(self.nodePath) - 1)
             r2 = randint(0,len(self.nodePath) - 1)
@@ -68,7 +69,7 @@ class Path:
                 break
 
 
-    def mutateInversion(self):
+    def __mutateInversion(self):
         a = 0
         b = 0
 
@@ -95,11 +96,11 @@ class Path:
             return self
 
         if method == CrossoverMethod.ORDERED_CROSSOVER:
-            return self.orderedCrossover(partner)
+            return self.__orderedCrossover(partner)
         elif method == CrossoverMethod.CYCLE_CROSSOVER:
-            return self.cycleCrossover(partner)
+            return self.__cycleCrossover(partner)
 
-    def cycleCrossover(self,partner):
+    def __cycleCrossover(self,partner):
         y1 = [-1] * len(self.nodePath)
         y2 = [-1] * len(partner.nodePath)
 
@@ -123,7 +124,7 @@ class Path:
 
         return newPath
 
-    def orderedCrossover(self, partner):
+    def __orderedCrossover(self, partner):
         child = []
 
         sectionStart = randint(0, len(self.nodePath) - 1)

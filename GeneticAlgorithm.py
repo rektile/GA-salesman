@@ -3,11 +3,11 @@ from random import choice
 from GAalgorithms import *
 
 class GeneticAlgorithm:
-    def __init__(self):
-        ###Params###############################################
-        self.selectionMethod = SelectionMethod.TOURNAMENT
-        self.mutationMethod = MutationMethod.INVERSION
-        self.crossoverMethod = CrossoverMethod.CYCLE_CROSSOVER
+    def __init__(self, selectionMethod, mutationMethod, crossoverMethod):
+        #####################Params############################
+        self.selectionMethod = selectionMethod
+        self.mutationMethod = mutationMethod
+        self.crossoverMethod = crossoverMethod
 
         self.mutationRate = 15
         self.crossoverRate = 85
@@ -16,17 +16,8 @@ class GeneticAlgorithm:
         self.selectionSize = round(self.populationAmount / 10)
         #######################################################
 
-        self.populationArray = None
-
-        self.evolutionNumber = 0
-        self.averageFitness = 0
-
-        self.wortPath = None
-        self.bestPath = None
-        self.bestEv = 0
-        self.newBestPath = False
-
-        self.matingPool = []
+        # Init with blank values
+        self.reset();
 
     def reset(self):
         self.nodeArray = None
@@ -56,7 +47,6 @@ class GeneticAlgorithm:
         self.populationArray = paths
 
     def checkForBestAndWorst(self,path):
-
         if self.bestPath:
             if path.fitness < self.bestPath.fitness:
                 self.bestPath = path
@@ -90,8 +80,10 @@ class GeneticAlgorithm:
         for i in range(self.populationAmount):
             parent1 = choice(self.matingPool)
             parent2 = choice(self.matingPool)
+
             child = parent1.crossover(parent2, self.crossoverMethod, self.crossoverRate)
             child.mutate(self.mutationMethod, self.mutationRate)
+            
             self.populationArray.append(child)
 
         self.evolutionNumber += 1
@@ -131,8 +123,14 @@ class GeneticAlgorithm:
             path.calcFitness()
 
             self.averageFitness += path.fitness
-
             self.checkForBestAndWorst(path)
 
         self.averageFitness /= self.populationAmount
 
+    def run(self):
+        self.calcFitness()
+        self.evolve()
+        bestPath = self.bestPath
+        ev = self.bestEv
+
+        return bestPath, ev

@@ -3,9 +3,9 @@ import pygame
 
 class VisualController:
 
-    def __init__(self):
-        self.width = 1200
-        self.height = 800
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
         self.screen = None
         self.font = None
 
@@ -47,4 +47,6 @@ class VisualController:
 
     def drawLinesBetweenNodes(self,nodes):
         for i in range(len(nodes) - 1):
-            pygame.draw.line(self.screen, self.black, (nodes[i][0], nodes[i][1]), (nodes[i + 1][0], nodes[i + 1][1]), self.lineWidth)
+            p1 = (nodes[i][0], nodes[i][1])
+            p2 = (nodes[i + 1][0], nodes[i + 1][1])
+            pygame.draw.line(self.screen, self.black, p1, p2, self.lineWidth)

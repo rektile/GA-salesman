@@ -7,14 +7,28 @@ import pygame
 class GameState(Enum):
     INIT = 0
     RUNNING = 1
+    FINISHED = 2
 
 class Program:
 
     def __init__(self):
-        self.VC = VisualController()
+
+        # Initialize the Genetic Algorithm
+        self.GA = GeneticAlgorithm(
+            SelectionMethod.TOURNAMENT,
+            MutationMethod.INVERSION,
+            CrossoverMethod.CYCLE_CROSSOVER
+        )
+        
+        
+        self.VC = VisualController(1200, 800)
         self.currentStage = GameState.INIT
-        self.GA = GeneticAlgorithm()
         self.nodes = []
+
+        self.maxGenerationsNoImprovement = 10
+        self.prevBest = 0
+        self.iterationCount = 0
+        self.selfPath = None
 
     def run(self):
         self.VC.init()
@@ -23,16 +37,33 @@ class Program:
 
             self.checkInput()
 
-            if self.currentStage == GameState.RUNNING:
-                self.GA.calcFitness()
-                self.GA.evolve()
-                bestPath = self.GA.bestPath
-                ev = self.GA.bestEv
-                self.VC.updateCurrentScoreAndEvolution(bestPath.fitness,ev)
-                self.VC.drawLinesBetweenNodes(bestPath.nodePath)
-            else:
+            if self.currentStage == GameState.INIT:
+                # Draw the amount of points
                 self.VC.updatePointsText(len(self.nodes))
 
+            elif self.currentStage == GameState.RUNNING:
+                self.bestPath, ev = self.GA.run();
+
+                if self.prevBest == self.bestPath.fitness:
+                    self.iterationCount += 1
+                    
+                    # Check if we haven't improved for a while to stop the GA
+                    if self.iterationCount == self.maxGenerationsNoImprovement:
+                        self.currentStage = GameState.FINISHED   
+                else:
+                    self.prevBest = self.bestPath.fitness
+                    self.iterationCount = 0
+                    
+                    # Draw the current best path
+                    self.VC.updateCurrentScoreAndEvolution(self.bestPath.fitness, ev)
+                    self.VC.drawLinesBetweenNodes(self.bestPath.nodePath)
+
+            elif self.currentStage == GameState.FINISHED:
+                # Draw the stats of the best found path
+                self.VC.updateCurrentScoreAndEvolution(self.bestPath.fitness, ev)
+                self.VC.drawLinesBetweenNodes(self.bestPath.nodePath)
+
+            # Draw the nodes and update the screen
             self.VC.drawNodes(self.nodes)
             self.VC.updateScreen()
 
@@ -73,6 +104,9 @@ class Program:
         self.GA.reset()
         self.currentStage = GameState.INIT
         self.nodes = []
+
+        self.iterationCount = 0
+        self.prevBest = 0
 
 
 program = Program()
